@@ -6,7 +6,7 @@ local internet = nil
 local shell = require("shell")
 
 -- Configuration
-local REPO_URL = "https://raw.githubusercontent.com/yourusername/minecraft-data-collector/main/"
+local REPO_URL = "https://raw.githubusercontent.com/michaeldoylecs/ae2-web-dashboard-ai/main/"
 local FILES = {
   -- Main files
   {path = "opencomputers/startup.lua", dest = "/startup.lua"},
