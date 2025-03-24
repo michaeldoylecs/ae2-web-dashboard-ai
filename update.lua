@@ -46,41 +46,8 @@ local function downloadFile(path, destination)
   end
   
   -- Use the component.internet directly
-  local result, reason = pcall(function()
-    local handle = internet.request(url)
-    local content = ""
-    
-    -- Wait for the request to complete
-    local deadline = computer.uptime() + 10 -- 10 second timeout
-    while not handle.finishConnect() do
-      if computer.uptime() > deadline then
-        error("Connection timed out")
-      end
-      os.sleep(0.1)
-    end
-    
-    -- Read the response
-    while true do
-      local data, reason = handle.read()
-      if not data then
-        if reason then
-          error("Error reading data: " .. reason)
-        end
-        break
-      end
-      content = content .. data
-    end
-    
-    -- Write to file
-    local file = io.open(destination, "w")
-    if not file then
-      error("Could not open file for writing: " .. destination)
-    end
-    file:write(content)
-    file:close()
-    
-    handle.close()
-  end)
+  -- Use the built-in wget program
+  local result = os.execute("wget -f \"" .. url .. "\" \"" .. destination .. "\"")
   
   if result then
     if fs.exists(destination) then
