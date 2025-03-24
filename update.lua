@@ -75,11 +75,3 @@ if failCount == 0 then
 else
   print("Some files failed to update. Please check your internet connection and try again.")
 end
-
-print("\nReboot the computer to apply changes? (y/n)")
-local input = io.read():lower()
-if input == "y" or input == "yes" then
-  print("Rebooting...")
-  os.sleep(1)
-  require("computer").shutdown(true)
-end
