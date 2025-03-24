@@ -47,8 +47,7 @@ local function downloadFile(path, destination)
   
   -- Use shell.execute to run wget with proper parameters
   -- The -f flag forces overwrite of existing files
-  -- The -Q flag suppresses wget's output
-  local success = shell.execute("wget", "-fQ", url, destination)
+  local success = shell.execute("wget", "-f", url, destination)
   
   if success then
     -- Verify the file exists after download
