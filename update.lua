@@ -10,12 +10,12 @@ local shell = require("shell")
 local REPO_URL = "https://raw.githubusercontent.com/michaeldoylecs/ae2-web-dashboard-ai/main/"
 local FILES = {
   -- Main files
-  {path = "opencomputers/startup.lua", dest = "/startup.lua"},
+  {path = "opencomputers/startup.lua", dest = "startup.lua"},
   
   -- Library files
-  {path = "opencomputers/lib/http.lua", dest = "/lib/http.lua"},
-  {path = "opencomputers/lib/sensors.lua", dest = "/lib/sensors.lua"},
-  {path = "opencomputers/lib/config.lua", dest = "/lib/config.lua"}
+  {path = "opencomputers/lib/http.lua", dest = "lib/http.lua"},
+  {path = "opencomputers/lib/sensors.lua", dest = "lib/sensors.lua"},
+  {path = "opencomputers/lib/config.lua", dest = "lib/config.lua"}
 }
 
 -- Check if internet card is available
@@ -27,9 +27,9 @@ else
 end
 
 -- Create directories if they don't exist
-if not fs.exists("/lib") then
-  fs.makeDirectory("/lib")
-  print("Created /lib directory")
+if not fs.exists("lib") then
+  fs.makeDirectory("lib")
+  print("Created lib directory")
 end
 
 -- Download a file from the repository
