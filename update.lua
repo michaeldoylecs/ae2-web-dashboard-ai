@@ -40,13 +40,29 @@ local function downloadFile(path, destination)
   
   -- Create parent directories if they don't exist
   local destDir = fs.path(destination)
-  if not fs.exists(destDir) then
+  if destDir ~= "" and not fs.exists(destDir) then
     fs.makeDirectory(destDir)
     print("Created directory: " .. destDir)
   end
   
-  -- Use shell.execute to run wget with proper parameters
-  local success = shell.execute("wget", nil, "-f", url, destination)
+  -- Use direct internet API instead of shell.execute
+  local success = pcall(function()
+    local handle = internet.request(url)
+    local result = ""
+    
+    for chunk in handle do
+      result = result .. chunk
+    end
+    
+    -- Write the file directly
+    local file = io.open(destination, "w")
+    if file then
+      file:write(result)
+      file:close()
+    else
+      error("Could not open file for writing: " .. destination)
+    end
+  end)
   
   if success then
     print("Successfully downloaded " .. destination)
