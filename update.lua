@@ -1,6 +1,7 @@
 -- update.lua - Downloads the latest code from GitHub repository
 
 local component = require("component")
+local computer = require("computer")
 local fs = require("filesystem")
 local internet = nil
 local shell = require("shell")
@@ -45,21 +46,53 @@ local function downloadFile(path, destination)
     print("Created directory: " .. destDir)
   end
   
-  -- Use shell.execute to run wget with proper parameters
-  -- The -f flag forces overwrite of existing files
-  local success = shell.execute("wget", "-f", url, destination)
+  -- Use the component.internet directly
+  local result, reason = pcall(function()
+    local handle = internet.request(url)
+    local content = ""
+    
+    -- Wait for the request to complete
+    local deadline = computer.uptime() + 10 -- 10 second timeout
+    while not handle.finishConnect() do
+      if computer.uptime() > deadline then
+        error("Connection timed out")
+      end
+      os.sleep(0.1)
+    end
+    
+    -- Read the response
+    while true do
+      local data, reason = handle.read()
+      if not data then
+        if reason then
+          error("Error reading data: " .. reason)
+        end
+        break
+      end
+      content = content .. data
+    end
+    
+    -- Write to file
+    local file = io.open(destination, "w")
+    if not file then
+      error("Could not open file for writing: " .. destination)
+    end
+    file:write(content)
+    file:close()
+    
+    handle.close()
+  end)
   
-  if success then
-    -- Verify the file exists after download
+  if result then
     if fs.exists(destination) then
       print("Successfully downloaded " .. destination)
       return true
     else
-      print("Download reported success but file not found: " .. destination)
+      print("Download completed but file not found: " .. destination)
       return false
     end
   else
-    print("Failed to download " .. path)
+    print("Failed to download " .. path .. ": " .. tostring(reason))
     return false
   end
 end
