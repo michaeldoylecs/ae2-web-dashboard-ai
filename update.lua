@@ -46,7 +46,7 @@ local function downloadFile(path, destination)
       return false
     end
   else
-    print("Failed to download " .. path .. ": " .. tostring(reason))
+    print("Failed to download " .. path)
     return false
   end
 end
