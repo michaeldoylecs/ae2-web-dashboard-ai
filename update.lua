@@ -30,11 +30,70 @@ local function downloadFile(path, destination)
     print("Created directory: " .. destDir)
   end
   
-  -- Use the component.internet directly
-  -- Use the built-in wget program
-  local success = shell.execute("wget", "-f", url, destination)
+  -- Use a different approach to download files
+  local result = nil
   
-  if success then
+  -- Try to use the wget program directly
+  local wgetPath = "/bin/wget"
+  if fs.exists(wgetPath) then
+    -- Use os.execute instead of shell.execute
+    result = os.execute(wgetPath .. " -f \"" .. url .. "\" \"" .. destination .. "\"")
+  else
+    print("wget not found at " .. wgetPath .. ", trying alternative method")
+    -- Alternative method using component.internet
+    if component.isAvailable("internet") then
+      local internet = require("internet")
+      local success, reason = pcall(function()
+        local handle = internet.request(url)
+        local content = ""
+        
+        -- Wait for connection
+        local timeout = 5
+        local connected = false
+        for i = 1, timeout * 10 do
+          if handle.finishConnect() then
+            connected = true
+            break
+          end
+          os.sleep(0.1)
+        end
+        
+        if not connected then
+          error("Connection timed out")
+        end
+        
+        -- Read content
+        while true do
+          local chunk = handle.read()
+          if chunk then
+            content = content .. chunk
+          else
+            break
+          end
+        end
+        
+        -- Write to file
+        local file = io.open(destination, "w")
+        if file then
+          file:write(content)
+          file:close()
+          result = true
+        else
+          error("Could not open file for writing: " .. destination)
+        end
+      end)
+      
+      if not success then
+        print("Error: " .. tostring(reason))
+        result = false
+      end
+    else
+      print("No internet component available")
+      result = false
+    end
+  end
+  
+  if result then
     if fs.exists(destination) then
       print("Successfully downloaded " .. destination)
       return true
