@@ -35,18 +35,18 @@ end
 local function downloadFile(path, destination)
   print("Downloading " .. path .. " to " .. destination)
   
-  local success = pcall(function()
-    local url = REPO_URL .. path
-    local result = ""
-    
-    for chunk in internet.request(url) do
-      result = result .. chunk
-    end
-    
-    local file = io.open(destination, "w")
-    file:write(result)
-    file:close()
-  end)
+  local url = REPO_URL .. path
+  print("URL: " .. url)
+  
+  -- Create parent directories if they don't exist
+  local destDir = fs.path(destination)
+  if not fs.exists(destDir) then
+    fs.makeDirectory(destDir)
+    print("Created directory: " .. destDir)
+  end
+  
+  -- Use shell.execute to run wget with proper parameters
+  local success = shell.execute("wget", nil, "-f", url, destination)
   
   if success then
     print("Successfully downloaded " .. destination)
@@ -87,5 +87,5 @@ local input = io.read():lower()
 if input == "y" or input == "yes" then
   print("Rebooting...")
   os.sleep(1)
-  computer.shutdown(true)
+  require("computer").shutdown(true)
 end
