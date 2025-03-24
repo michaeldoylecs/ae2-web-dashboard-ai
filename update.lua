@@ -14,8 +14,8 @@ local FILES = {
 }
 
 -- Create directories if they don't exist
-if not fs.exists("./lib") then
-  fs.makeDirectory("./lib")
+if not fs.exists("lib") then
+  fs.makeDirectory("lib")
   print("Created lib directory")
 end
 
