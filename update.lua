@@ -45,28 +45,20 @@ local function downloadFile(path, destination)
     print("Created directory: " .. destDir)
   end
   
-  -- Use direct internet API instead of shell.execute
-  local success = pcall(function()
-    local handle = internet.request(url)
-    local result = ""
-    
-    for chunk in handle do
-      result = result .. chunk
-    end
-    
-    -- Write the file directly
-    local file = io.open(destination, "w")
-    if file then
-      file:write(result)
-      file:close()
-    else
-      error("Could not open file for writing: " .. destination)
-    end
-  end)
+  -- Use shell.execute to run wget with proper parameters
+  -- The -f flag forces overwrite of existing files
+  -- The -Q flag suppresses wget's output
+  local success = shell.execute("wget", "-fQ", url, destination)
   
   if success then
-    print("Successfully downloaded " .. destination)
-    return true
+    -- Verify the file exists after download
+    if fs.exists(destination) then
+      print("Successfully downloaded " .. destination)
+      return true
+    else
+      print("Download reported success but file not found: " .. destination)
+      return false
+    end
   else
     print("Failed to download " .. path)
     return false
