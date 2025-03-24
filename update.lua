@@ -14,9 +14,10 @@ local FILES = {
 }
 
 -- Create directories if they don't exist
-if not fs.exists("lib") then
-  fs.makeDirectory("lib")
-  print("Created lib directory")
+local libPath = "./lib"
+if not fs.exists(libPath) then
+  fs.makeDirectory(libPath)
+  print("Created lib directory at: " .. fs.canonical(libPath))
 end
 
 -- Download a file from the repository
