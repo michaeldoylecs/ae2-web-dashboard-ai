@@ -1,1 +1,14 @@
 .aider*
+
+# Node.js
+node_modules/
+npm-debug.log
+
+# Lua
+*.luac
+
+# MongoDB
+/data/
+
+# Environment files
+.env

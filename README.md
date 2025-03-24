@@ -1,6 +1,11 @@
-# Minecraft Data Collector
+# Minecraft OpenComputers Data Collection System
 
-An OpenComputers program to collect and transmit sensor data from Minecraft machines.
+A system for collecting and storing Minecraft game data using OpenComputers mod and Node.js.
+
+## Components
+- OpenComputers Lua scripts for data collection
+- Node.js API server for data storage
+- MongoDB for persistent storage
 
 ## Installation
 
@@ -51,3 +56,10 @@ The program will automatically:
 - Collect machine sensor data
 - Transmit it to the configured API endpoint
 - Handle errors and retries automatically
+
+## Server Setup
+1. Install Node.js and MongoDB
+2. Navigate to the server directory
+3. Run `npm install`
+4. Configure environment variables in config/default.js
+5. Start server with `node src/index.js`
