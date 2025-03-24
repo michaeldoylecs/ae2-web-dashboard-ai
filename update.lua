@@ -13,13 +13,6 @@ local FILES = {
   {path = "opencomputers/lib/config.lua", dest = "./lib/config.lua"}
 }
 
--- Create directories if they don't exist
-local libPath = "./lib"
-if not fs.exists(libPath) then
-  fs.makeDirectory(libPath)
-  print("Created lib directory at: " .. fs.canonical(libPath))
-end
-
 -- Download a file from the repository
 local function downloadFile(path, destination)
   print("Downloading " .. path .. " to " .. destination)
@@ -55,6 +48,13 @@ end
 -- Main execution
 print("Starting update from GitHub repository...")
 print("Repository: " .. REPO_URL)
+
+-- Create directories if they don't exist
+local libPath = "./lib"
+if not fs.exists(libPath) then
+  fs.makeDirectory(libPath)
+  print("Created lib directory at: " .. fs.canonical(libPath))
+end
 
 local successCount = 0
 local failCount = 0
