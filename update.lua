@@ -1,9 +1,5 @@
 -- update.lua - Downloads the latest code from GitHub repository
-
-local component = require("component")
-local computer = require("computer")
 local fs = require("filesystem")
-local internet = nil
 
 -- Configuration
 local REPO_URL = "https://raw.githubusercontent.com/michaeldoylecs/ae2-web-dashboard-ai/main/"
@@ -16,14 +12,6 @@ local FILES = {
   {path = "opencomputers/lib/sensors.lua", dest = "./lib/sensors.lua"},
   {path = "opencomputers/lib/config.lua", dest = "./lib/config.lua"}
 }
-
--- Check if internet card is available
-if component.isAvailable("internet") then
-  internet = require("internet")
-else
-  print("This program requires an internet card to run!")
-  return
-end
 
 -- Create directories if they don't exist
 if not fs.exists("./lib") then
