@@ -1,6 +1,5 @@
 -- update.lua - Downloads the latest code from GitHub repository
 local fs = require("filesystem")
-local computer = require("computer")
 
 -- Configuration
 local REPO_URL = "https://raw.githubusercontent.com/michaeldoylecs/ae2-web-dashboard-ai/main/"
@@ -23,9 +22,9 @@ local function downloadFile(path, destination)
 
   -- Create parent directories if they don't exist
   local destDir = fs.path(destination)
-  if destDir ~= "" and not fs.exists(destDir) then
-    fs.makeDirectory(destDir)
-    print("Created directory: " .. destDir)
+  print("destDir = " .. destDir)
+  if destDir ~= "/" then
+    os.execute("mkdir " .. destDir)
   end
 
   local result = os.execute("wget -f \"" .. url .. "\" \"" .. destination .. "\"")
@@ -45,7 +44,7 @@ end
 
 -- Main execution
 print("Starting update from GitHub repository...")
-print("Repository: " .. REPO_URL)
+print("Repository: " .. REPO_URL .. "\n")
 
 local successCount = 0
 local failCount = 0
@@ -56,6 +55,7 @@ for _, file in ipairs(FILES) do
   else
     failCount = failCount + 1
   end
+  print("")
 end
 
 print("\nUpdate completed!")
