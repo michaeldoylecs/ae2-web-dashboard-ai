@@ -1,4 +1,4 @@
-local component = require("component")
+local component = require("lib/component")
 local gps = component.gps
 
 local sensors = {}

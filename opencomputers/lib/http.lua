@@ -1,11 +1,11 @@
-local component = require("component")
+local component = require("lib/component")
 local internet = component.internet
 
 local http = {}
 
 function http.send_to_api(data)
-    local json = require("json")
-    local config = require("config")
+    local json = require("lib/json")
+    local config = require("lib/config")
     
     local headers = {
         ["Content-Type"] = "application/json",
