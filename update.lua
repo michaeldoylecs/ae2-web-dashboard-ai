@@ -10,7 +10,8 @@ local FILES = {
   -- Library files
   {path = "opencomputers/lib/http.lua", dest = "lib/http.lua"},
   {path = "opencomputers/lib/sensors.lua", dest = "lib/sensors.lua"},
-  {path = "opencomputers/lib/config.lua", dest = "lib/config.lua"}
+  {path = "opencomputers/lib/config.lua", dest = "lib/config.lua"},
+  {path = "opencomputers/lib/json.lua", dest = "lib/json.lua"}  -- Added JSON library
 }
 
 -- Download a file from the repository
