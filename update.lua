@@ -4,6 +4,9 @@ local fs = require("filesystem")
 -- Configuration
 local REPO_URL = "https://raw.githubusercontent.com/michaeldoylecs/ae2-web-dashboard-ai/main/"
 local FILES = {
+  -- Update script
+  {path = "opencomputers/update.lua", dest = "update.lua"},
+  
   -- Main files
   {path = "opencomputers/startup.lua", dest = "startup.lua"},
 
